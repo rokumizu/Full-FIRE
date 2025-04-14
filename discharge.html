@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>放水量の計算</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link id="stylesheet" rel="stylesheet" href="style-mobile.css">
+  <link rel="manifest" href="manifest.json">
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('serviceWorker.js');
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'Yu Gothic', sans-serif;
+      background: linear-gradient(to bottom right, #fff3e0, #ffe0b2);
+      text-align: center;
+      padding: 20px;
+      color: #333;
+    }
+
+    h1 {
+      font-size: 32px;
+      color: #bf360c;
+      margin: 30px 0;
+    }
+
+    .toggle {
+      text-align: right;
+      margin: 15px;
+      font-size: 14px;
+    }
+
+    .toggle button {
+      padding: 5px 10px;
+      margin-left: 5px;
+      font-size: 14px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .toggle button.active {
+      background-color: #ff5722;
+      color: white;
+      font-weight: bold;
+    }
+
+    .mode-status {
+      text-align: center;
+      font-size: 14px;
+      margin-bottom: 10px;
+      color: #666;
+    }
+
+    .form-area {
+      background-color: #fffaf0;
+      border: 2px solid #ff5722;
+      border-radius: 12px;
+      padding: 30px;
+      max-width: 500px;
+      margin: 0 auto 30px;
+      box-shadow: 4px 4px 10px rgba(0,0,0,0.15);
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin: 10px 0 5px;
+    }
+
+    input {
+      width: 80%;
+      max-width: 300px;
+      padding: 10px;
+      font-size: 16px;
+      margin-bottom: 15px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    h2 {
+      font-size: 22px;
+      margin-top: 20px;
+    }
+
+    #result {
+      font-size: 20px;
+      font-weight: bold;
+      color: #d84315;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <!-- 表示モード切替 -->
+  <div class="toggle">
+    表示モード：
+    <button id="btn-mobile" class="active" onclick="switchStyle('mobile')">スマホ</button>
+    <button id="btn-pc" onclick="switchStyle('pc')">PC</button>
+  </div>
+  <div class="mode-status" id="modeStatus">現在：スマホモード</div>
+
+  <h1>放水量の計算</h1>
+
+  <div class="form-area">
+    <label for="nozzleDiameter">ノズル口径（mm）：</label>
+    <input type="number" id="nozzleDiameter" placeholder="例：20" oninput="calculate()">
+
+    <label for="nozzlePressure">ノズル圧力（MPa）：</label>
+    <input type="number" id="nozzlePressure" placeholder="例：0.3" oninput="calculate()">
+
+    <div id="result">ここに結果が表示されます</div>
+  </div>
+
+  <script>
+    function calculate() {
+      const diameter = parseFloat(document.getElementById("nozzleDiameter").value);
+      const pressure = parseFloat(document.getElementById("nozzlePressure").value);
+
+      if (!isNaN(diameter) && !isNaN(pressure)) {
+        const result = 2.08 * Math.pow(diameter, 2) * Math.sqrt(pressure);
+        document.getElementById("result").textContent = `🚿 放水量：${result.toFixed(1)} ℓ/分`;
+      } else {
+        document.getElementById("result").textContent = "正しい値を入力してくださいませ！";
+      }
+    }
+
+    function switchStyle(mode) {
+      const stylesheet = document.getElementById('stylesheet');
+      const btnMobile = document.getElementById('btn-mobile');
+      const btnPC = document.getElementById('btn-pc');
+      const modeStatus = document.getElementById('modeStatus');
+
+      if (mode === 'pc') {
+        stylesheet.href = 'style-pc.css';
+        btnMobile.classList.remove('active');
+        btnPC.classList.add('active');
+        modeStatus.textContent = '現在：PCモード';
+      } else {
+        stylesheet.href = 'style-mobile.css';
+        btnPC.classList.remove('active');
+        btnMobile.classList.add('active');
+        modeStatus.textContent = '現在：スマホモード';
+      }
+    }
+  </script>
+</body>
+</html>

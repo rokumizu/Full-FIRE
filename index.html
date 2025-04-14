@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>消防計算ソフト</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link id="stylesheet" rel="stylesheet" href="style-mobile.css">
+
+  <!-- ✅ PWA対応 -->
+  <link rel="manifest" href="manifest.json">
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('serviceWorker.js');
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Segoe UI', 'Yu Gothic', sans-serif;
+      background: linear-gradient(to bottom right, #fff3e0, #ffe0b2);
+      color: #333;
+      text-align: center;
+      padding: 0;
+      margin: 0;
+    }
+
+    .toggle {
+      text-align: right;
+      margin: 15px;
+      font-size: 14px;
+    }
+
+    .toggle button {
+      padding: 5px 10px;
+      margin-left: 5px;
+      font-size: 14px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .toggle button.active {
+      background-color: #ff5722;
+      color: white;
+      font-weight: bold;
+    }
+
+    .mode-status {
+      text-align: center;
+      font-size: 14px;
+      margin-bottom: 10px;
+      color: #666;
+    }
+
+    h1 {
+      font-size: 36px; /* ← ここを調整！ */
+      color: #bf360c;
+      border: 3px solid #bf360c;
+      display: inline-block;
+      padding: 20px 40px;
+      border-radius: 15px;
+      box-shadow: 4px 4px 12px rgba(0,0,0,0.3);
+      background-color: #fffaf0;
+      margin-top: 30px;
+      margin-bottom: 40px;
+    }
+
+    .menu {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .calc-button {
+      background-color: #ff5722;
+      color: white;
+      padding: 15px 30px;
+      font-size: 20px;
+      border-radius: 12px;
+      text-decoration: none;
+      box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+      transition: background-color 0.3s, transform 0.2s;
+    }
+
+    .calc-button:hover {
+      background-color: #e64a19;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <div class="toggle">
+    表示モード：
+    <button id="btn-mobile" class="active" onclick="switchStyle('mobile')">PC</button>
+    <button id="btn-pc" onclick="switchStyle('pc')">スマホ</button>
+  </div>
+
+  <div class="mode-status" id="modeStatus">現在：PCモード</div>
+
+  <h1>消防計算ソフト</h1>
+
+  <div class="menu">
+    <a href="friction.html" class="calc-button">🧯&nbsp;摩擦損失の計算</a>
+    <a href="hydrant.html" class="calc-button">🚰&nbsp;消火栓の最大給水量予測</a>
+    <a href="discharge.html" class="calc-button">🚿&nbsp;放水量の計算</a>
+  </div>
+
+  <script>
+    function switchStyle(mode) {
+      const stylesheet = document.getElementById('stylesheet');
+      const btnMobile = document.getElementById('btn-mobile');
+      const btnPC = document.getElementById('btn-pc');
+      const modeStatus = document.getElementById('modeStatus');
+
+      if (mode === 'pc') {
+        stylesheet.href = 'style-pc.css';
+        btnMobile.classList.remove('active');
+        btnPC.classList.add('active');
+        modeStatus.textContent = '現在：スマホモード';
+      } else {
+        stylesheet.href = 'style-mobile.css';
+        btnPC.classList.remove('active');
+        btnMobile.classList.add('active');
+        modeStatus.textContent = '現在：PCモード';
+      }
+    }
+  </script>
+</body>
+</html>

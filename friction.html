@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>摩擦損失の計算（3種類入力対応）</title>
+  <title>摩擦損失の計算（MPa表示）</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
@@ -62,32 +62,32 @@
   </style>
 </head>
 <body>
-  <h1>摩擦損失の計算</h1>
+  <h1>摩擦損失の計算（MPa）</h1>
 
   <div class="form-section">
     <h2>65mmホース</h2>
     <label>ホース本数</label>
-    <input type="number" id="hose65" oninput="calculate()">
-    <label>流量</label>
-    <input type="number" id="flow65" oninput="calculate()">
+    <input type="number" id="hose65" placeholder="例：1" oninput="calculate()">
+    <label>流量（ℓ/分）</label>
+    <input type="number" id="flow65" placeholder="例：600" oninput="calculate()">
     <div class="result" id="result65">⚠ 入力待ちです</div>
   </div>
 
   <div class="form-section">
     <h2>50mmホース</h2>
     <label>ホース本数</label>
-    <input type="number" id="hose50" oninput="calculate()">
-    <label>流量</label>
-    <input type="number" id="flow50" oninput="calculate()">
+    <input type="number" id="hose50" placeholder="例：1" oninput="calculate()">
+    <label>流量（ℓ/分）</label>
+    <input type="number" id="flow50" placeholder="例：600" oninput="calculate()">
     <div class="result" id="result50">⚠ 入力待ちです</div>
   </div>
 
   <div class="form-section">
     <h2>40mmホース</h2>
     <label>ホース本数</label>
-    <input type="number" id="hose40" oninput="calculate()">
-    <label>流量</label>
-    <input type="number" id="flow40" oninput="calculate()">
+    <input type="number" id="hose40" placeholder="例：1" oninput="calculate()">
+    <label>流量（ℓ/分）</label>
+    <input type="number" id="flow40" placeholder="例：600" oninput="calculate()">
     <div class="result" id="result40">⚠ 入力待ちです</div>
   </div>
 
@@ -106,9 +106,9 @@
       let count = 0;
 
       if (!isNaN(hose65) && !isNaN(flow65)) {
-        const loss65 = 0.137 * hose65 * Math.pow(flow65, 2);
-        const rounded65 = Math.round(loss65 * 100) / 100;
-        document.getElementById("result65").textContent = `摩擦損失：${rounded65} MPa`;
+        const loss65 = (0.137 * hose65 * Math.pow(flow65, 2)) / 1000000;
+        const rounded65 = Math.round(loss65 * 1000) / 1000;
+        document.getElementById("result65").textContent = `摩擦損失：${rounded65.toFixed(2)} MPa`;
         total += loss65;
         count++;
       } else {
@@ -116,9 +116,9 @@
       }
 
       if (!isNaN(hose50) && !isNaN(flow50)) {
-        const loss50 = 0.365 * hose50 * Math.pow(flow50, 2);
-        const rounded50 = Math.round(loss50 * 100) / 100;
-        document.getElementById("result50").textContent = `摩擦損失：${rounded50} MPa`;
+        const loss50 = (0.365 * hose50 * Math.pow(flow50, 2)) / 1000000;
+        const rounded50 = Math.round(loss50 * 1000) / 1000;
+        document.getElementById("result50").textContent = `摩擦損失：${rounded50.toFixed(2)} MPa`;
         total += loss50;
         count++;
       } else {
@@ -126,18 +126,18 @@
       }
 
       if (!isNaN(hose40) && !isNaN(flow40)) {
-        const loss40 = 1.569 * hose40 * Math.pow(flow40, 2);
-        const rounded40 = Math.round(loss40 * 100) / 100;
-        document.getElementById("result40").textContent = `摩擦損失：${rounded40} MPa`;
+        const loss40 = (1.569 * hose40 * Math.pow(flow40, 2)) / 1000000;
+        const rounded40 = Math.round(loss40 * 1000) / 1000;
+        document.getElementById("result40").textContent = `摩擦損失：${rounded40.toFixed(2)} MPa`;
         total += loss40;
         count++;
       } else {
         document.getElementById("result40").textContent = "⚠ 入力待ちです";
       }
 
-      const roundedTotal = Math.round(total * 100) / 100;
+      const roundedTotal = Math.round(total * 1000) / 1000;
       document.getElementById("total-result").textContent =
-        count > 0 ? `✅ トータル摩擦損失：${roundedTotal} MPa` : "すべての入力をしてくださいませ！";
+        count > 0 ? `✅ トータル摩擦損失：${roundedTotal.toFixed(2)} MPa` : "すべての入力をしてくださいませ！";
     }
   </script>
 </body>
